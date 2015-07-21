@@ -5,7 +5,7 @@ DEBUGNET FOR VITA
  What does this do?
 ===================
  
-  debugnet is a psp2 small library to depure your homebrew code over udp. It is the same method that i use to depure PlayStation 3 code, so i can use the same host tools for PlayStation Vita and PlayStation 3 to do it.
+  debugnet is a psp2 small library to debug your homebrew code over udp. It is the same method that i use to debug PlayStation 3 code, so i can use the same host tools for PlayStation Vita and PlayStation 3 to do it.
   
 ==================
   How do I use it?
