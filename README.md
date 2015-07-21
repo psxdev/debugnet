@@ -59,7 +59,7 @@ DEBUGNET FOR VITA
   
   Special thanks goes to:
   
-  - yifanlu to open the doors with rejuvenate. We need PlayStation VitaTV suppport and other cool things so i wait you come back.
+  - yifanlu to open the doors with rejuvenate. We need PlayStation VitaTV support and other cool things so i wait you come back.
   - All people collaborating in #PSP2SDK: @17310, @xerpi(i stole you network initialization code :P from FTPVita), @frangar , @frtomtomdu80, @hykemthedemon , @SMOKE587, @Josh_Axey ... 
   - All ps3dev and ps2dev old comrades
   
