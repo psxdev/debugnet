@@ -27,7 +27,7 @@ DEBUGNET FOR VITA
   ```
   cd libdebugnet
   make
-  make install-vita
+  make install
   ```
   
  2) Compile sample
