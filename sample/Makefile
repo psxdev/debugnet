@@ -25,7 +25,10 @@ ASFLAGS  = $(CFLAGS) --gc-sections
 all: $(TARGET).velf
 
 $(TARGET).velf: $(TARGET).elf
-	psp2-fixup -q -S $< $@
+#advice from xyzz strip before create elf
+	arm-vita-eabi-strip -g $<
+#i put db.json there use your location 
+	vita-elf-create  $< $@ $(VITASDK)/bin/db.json
 
 $(TARGET).elf: $(OBJS)
 	$(CC)  $^  -o $@ $(CFLAGS) $(LIBS)

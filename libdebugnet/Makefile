@@ -17,6 +17,6 @@ clean:
 	@rm -rf $(TARGET_LIB) $(OBJS)
 
 install: $(TARGET_LIB)
-	@cp $(TARGET_LIB) $(PSP2SDK)/lib
-	@cp include/debugnet.h $(PSP2SDK)/include
+	@cp $(TARGET_LIB) $(VITASDK)/arm-vita-eabi/lib
+	@cp include/debugnet.h $(VITASDK)/arm-vita-eabi/include
 	@echo "Installed!"

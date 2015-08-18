@@ -5,7 +5,7 @@ DEBUGNET FOR VITA
  What does this do?
 ===================
  
-  debugnet is a psp2 small library to debug your homebrew code over udp. It is the same method that i use to debug PlayStation 3 code, so i can use the same host tools for PlayStation Vita and PlayStation 3 to do it.
+  debugnet is a vita small library to debug your homebrew code over udp. It is the same method that i use to debug PlayStation 3 code, so i can use the same host tools for PlayStation Vita and PlayStation 3 to do it.
   
 ==================
   How do I use it?
@@ -13,15 +13,25 @@ DEBUGNET FOR VITA
 
  1) Compile and install library and include file
 
-  You need a psp2 toolchain installed in your environment and PSP2SDK must be defined
+  You need the new vita toolchain installed in your environment VITASDK must be defined.
   
+  Experimental build scripts tested with osx are in:
+  
+  [vitasdk-buildscripts] (https://github.com/psxdev/vitasdk-buildscripts)
+  
+  After install it replace crt0.o from arm-vita-eabi/lib with this one than you has in  build-native/newlib/arm-vita-eabi/newlib/libc/sys/vita/crt0.o is inside of directory that you are using to compiling the toolchain
+  
+  Toolchain is work in progress but it's time to switch to vitasdk 
+  
+    
   ```
   cd libdebugnet
   make
-  make install
+  make install-vita
   ```
   
  2) Compile sample
+  
   
   ```
   cd sample
@@ -51,7 +61,7 @@ DEBUGNET FOR VITA
  [INFO]: Test info level 1
  ```
  
- 5) ready to have a lot of fun :P
+ 5) ready to have a lot of fun :P and switch to vitasdk
   
 ===========================
   Credits
@@ -59,7 +69,8 @@ DEBUGNET FOR VITA
   
   Special thanks goes to:
   
-  - yifanlu to open the doors with rejuvenate. We need PlayStation VitaTV support and other cool things so i wait you come back.
-  - All people collaborating in #PSP2SDK: @17310, @xerpi(i stole you network initialization code :P from FTPVita), @frangar , @frtomtomdu80, @hykemthedemon , @SMOKE587, @Josh_Axey ... 
+  - yifanlu to open the doors with rejuvenate. 
+  - All people who collaborated in #PSP2SDK: @17310, @xerpi(i stole you network initialization code :P from FTPVita), @frangar , @frtomtomdu80, @hykemthedemon , @SMOKE587, @Josh_Axey ... 
   - All ps3dev and ps2dev old comrades
+  - xyzz for help with vita toolchain
   

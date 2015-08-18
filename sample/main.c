@@ -3,11 +3,9 @@
  *	Copyright (C) 2010,2015 Antonio Jose Ramos Marquez (aka bigboss) @psxdev on twitter
  *  Repository https://github.com/psxdev/debugnet
  */
-#include <psp2/moduleinfo.h>
 #include <debugnet.h>
 
 
-PSP2_MODULE_INFO(0, 0, "debugnetSample");
 
 #define ip_server "172.26.1.15"
 #define port_server 18194
