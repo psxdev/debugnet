@@ -12,7 +12,7 @@ OBJS= main.o
 
 LIBS=-lSceNet_stub -lSceNetCtl_stub -ldebugnet
 
-PREFIX   = arm-none-eabi
+PREFIX   = arm-vita-eabi
 AS	     = $(PREFIX)-as
 CC       = $(PREFIX)-gcc
 CXX		 = $(PREFIX)-g++

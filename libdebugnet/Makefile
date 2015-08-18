@@ -1,7 +1,7 @@
 TARGET_LIB = libdebugnet.a
 OBJS       = source/debugnet.o 
 INCLUDES   = include
-PREFIX  = arm-none-eabi
+PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
 AR      = $(PREFIX)-ar
 CFLAGS  = -O2 -Wall -specs=psp2.specs -I$(INCLUDES) 
