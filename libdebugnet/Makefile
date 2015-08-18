@@ -4,7 +4,7 @@ INCLUDES   = include
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
 AR      = $(PREFIX)-ar
-CFLAGS  = -O2 -Wall -specs=psp2.specs -I$(INCLUDES) 
+CFLAGS  = -O2 -Wall -I$(INCLUDES) 
 ASFLAGS = $(CFLAGS)
 
 all: $(TARGET_LIB)

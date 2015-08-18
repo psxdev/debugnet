@@ -10,7 +10,7 @@ TARGET		:= debugnetsample
 
 OBJS= main.o
 
-LIBS=-lSceNet_stub -lSceNetCtl_stub -ldebugnet
+LIBS=-ldebugnet -lSceNet_stub -lSceNetCtl_stub 
 
 PREFIX   = arm-vita-eabi
 AS	     = $(PREFIX)-as
@@ -18,7 +18,7 @@ CC       = $(PREFIX)-gcc
 CXX		 = $(PREFIX)-g++
 READELF  = $(PREFIX)-readelf
 OBJDUMP  = $(PREFIX)-objdump
-CFLAGS   = -O2 -Wall -specs=psp2.specs $(DEFINES) $(INCDIR) -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -ffunction-sections
+CFLAGS   = -O2 -Wall $(DEFINES) $(INCDIR) -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -ffunction-sections
 CXXFLAGS = $(CFLAGS) -fno-unwind-tables -fno-rtti -fno-exceptions -Wno-deprecated -Wno-comment -Wno-sequence-point
 ASFLAGS  = $(CFLAGS) --gc-sections
 
