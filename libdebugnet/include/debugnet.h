@@ -13,13 +13,17 @@
 #define ERROR 2
 #define DEBUG 3	
 
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 int debugNetInit(char *serverIp, int port, int level);
 void debugNetFinish();
 void debugNetPrintf(int level, char* format, ...);
 void debugNetSetLogLevel(int level);
 
-
-
+#ifdef __cplusplus
+}
+#endif
 #endif
