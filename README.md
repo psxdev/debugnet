@@ -13,17 +13,7 @@ DEBUGNET FOR VITA
 
  1) Compile and install library and include file
 
-  You need the new vita toolchain installed in your environment VITASDK must be defined.
   
-  Experimental build scripts tested with osx are in:
-  
-  [vitasdk-buildscripts] (https://github.com/psxdev/vitasdk-buildscripts)
-  
-  After install it replace crt0.o from arm-vita-eabi/lib with this one than you has in  build-native/newlib/arm-vita-eabi/newlib/libc/sys/vita/crt0.o is inside of directory that you are using to compiling the toolchain
-  
-  Toolchain is work in progress but it's time to switch to vitasdk 
-  
-    
   ```
   cd libdebugnet
   make
@@ -62,7 +52,12 @@ DEBUGNET FOR VITA
  ```
  
  5) ready to have a lot of fun :P and switch to vitasdk
-  
+
+===========================
+  Change log
+===========================
+ 21/01/2016 Update to support last vitasdk 
+ 
 ===========================
   Credits
 ===========================
@@ -70,7 +65,7 @@ DEBUGNET FOR VITA
   Special thanks goes to:
   
   - yifanlu to open the doors with rejuvenate. 
-  - All people who collaborated in #PSP2SDK: @17310, @xerpi(i stole you network initialization code :P from FTPVita), @frangar , @frtomtomdu80, @hykemthedemon , @SMOKE587, @Josh_Axey ... 
+  - All people who collaborated in #PSP2SDK: @173210, @xerpi(i stole you network initialization code :P from FTPVita), @frangar , @frtomtomdu80, @hykemthedemon , @SMOKE587, @Josh_Axey ... 
   - All ps3dev and ps2dev old comrades
   - xyzz for help with vita toolchain
   

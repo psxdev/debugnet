@@ -120,7 +120,7 @@ int debugNetInit(char *serverIp, int port, int level)
     }
     /*net initialazation code from xerpi at https://github.com/xerpi/FTPVita/blob/master/ftp.c*/
     /* Init Net */
-    if (sceNetShowNetstat() == PSP2_NET_ERROR_ENOTINIT) {
+    if (sceNetShowNetstat() == SCE_NET_ERROR_ENOTINIT) {
         net_memory = malloc(NET_INIT_SIZE);
 
         initparam.memory = net_memory;
@@ -139,23 +139,23 @@ int debugNetInit(char *serverIp, int port, int level)
    
 
     /* Get IP address */
-    ret = sceNetCtlInetGetInfo(PSP2_NETCTL_INFO_GET_IP_ADDRESS, &info);
+    ret = sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_IP_ADDRESS, &info);
     //printf("sceNetCtlInetGetInfo(): 0x%08X\n", ret);
 
 
     /* Save the IP of PSVita to a global variable */
-    sceNetInetPton(PSP2_NET_AF_INET, info.ip_address, &vita_addr);
+    sceNetInetPton(SCE_NET_AF_INET, info.ip_address, &vita_addr);
 	
 	/* Create datagram udp socket*/
     SocketFD = sceNetSocket("debugnet_socket",
-        PSP2_NET_AF_INET , PSP2_NET_SOCK_DGRAM, PSP2_NET_IPPROTO_UDP);
+        SCE_NET_AF_INET , SCE_NET_SOCK_DGRAM, SCE_NET_IPPROTO_UDP);
    
     memset(&stSockAddr, 0, sizeof stSockAddr);
 	
 	/*Populate SceNetSockaddrIn structure values*/
-    stSockAddr.sin_family = PSP2_NET_AF_INET;
+    stSockAddr.sin_family = SCE_NET_AF_INET;
     stSockAddr.sin_port = sceNetHtons(port);
-    sceNetInetPton(PSP2_NET_AF_INET, serverIp, &stSockAddr.sin_addr);
+    sceNetInetPton(SCE_NET_AF_INET, serverIp, &stSockAddr.sin_addr);
 
 	/*Connect socket to server*/
     sceNetConnect(SocketFD, (struct SceNetSockaddr *)&stSockAddr, sizeof stSockAddr);
