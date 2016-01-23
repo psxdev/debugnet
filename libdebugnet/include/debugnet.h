@@ -13,15 +13,28 @@
 #define ERROR 2
 #define DEBUG 3	
 
+typedef struct debugNetConfiguration
+{
+	int debugnet_initialized;
+	int SocketFD;
+	int logLevel;
+	
+} debugNetConfiguration;
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
+
 int debugNetInit(char *serverIp, int port, int level);
+int debugNetInitWithConf(debugNetConfiguration *conf);
+debugNetConfiguration *debugNetGetConf();
+int debugNetSetConf(debugNetConfiguration *conf);
 void debugNetFinish();
 void debugNetPrintf(int level, char* format, ...);
 void debugNetSetLogLevel(int level);
+int debugNetCreateConf();
 
 #ifdef __cplusplus
 }

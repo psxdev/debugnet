@@ -11,17 +11,13 @@
 #include <psp2/net/net.h>
 #include <psp2/net/netctl.h>
 #include <psp2/types.h>
+#include <psp2/kernel/clib.h>
 #include "debugnet.h"
 
-
-
-
-static int debugnet_initialized=0;
-int SocketFD = -1;
+int debugnet_external_conf=0;
+debugNetConfiguration *dconfig=NULL;
 static void *net_memory = NULL;
 static SceNetInAddr vita_addr;
-int sceClibVsnprintf(char *, SceSize, const char *, va_list); 
-int logLevel=INFO;
 
 /**
  * UDP printf for debugnet library 
@@ -38,7 +34,7 @@ void debugNetUDPPrintf(const char* fmt, ...)
   va_start(arg, fmt);
   sceClibVsnprintf(buffer, sizeof(buffer), fmt, arg);
   va_end(arg);
-  sceNetSend(SocketFD, buffer, strlen(buffer), 0);
+  sceNetSend(dconfig->SocketFD, buffer, strlen(buffer), 0);
 }
 /**
  * Log Level printf for debugnet library 
@@ -55,7 +51,7 @@ void debugNetPrintf(int level, char* format, ...)
 	char msgbuf[0x800];
 	va_list args;
 	
-		if (level>logLevel)
+		if (level>dconfig->logLevel)
 		return;
        
 	va_start(args, format);
@@ -92,7 +88,10 @@ void debugNetPrintf(int level, char* format, ...)
  */
 void debugNetSetLogLevel(int level)
 {
-	logLevel=level;	
+	if(dconfig)
+	{
+		dconfig->logLevel=level;	
+	}
 }
 /**
  * Init debugnet library 
@@ -114,10 +113,15 @@ int debugNetInit(char *serverIp, int port, int level)
     SceNetInitParam initparam;
     SceNetCtlInfo info;
     struct SceNetSockaddrIn stSockAddr;
+	
+	if(debugNetCreateConf())
+	{
+		return dconfig->debugnet_initialized;
+	}
+	
 	debugNetSetLogLevel(level);
-    if (debugnet_initialized) {
-        return debugnet_initialized;
-    }
+    
+    
     /*net initialazation code from xerpi at https://github.com/xerpi/FTPVita/blob/master/ftp.c*/
     /* Init Net */
     if (sceNetShowNetstat() == SCE_NET_ERROR_ENOTINIT) {
@@ -147,7 +151,7 @@ int debugNetInit(char *serverIp, int port, int level)
     sceNetInetPton(SCE_NET_AF_INET, info.ip_address, &vita_addr);
 	
 	/* Create datagram udp socket*/
-    SocketFD = sceNetSocket("debugnet_socket",
+    dconfig->SocketFD = sceNetSocket("debugnet_socket",
         SCE_NET_AF_INET , SCE_NET_SOCK_DGRAM, SCE_NET_IPPROTO_UDP);
    
     memset(&stSockAddr, 0, sizeof stSockAddr);
@@ -158,7 +162,7 @@ int debugNetInit(char *serverIp, int port, int level)
     sceNetInetPton(SCE_NET_AF_INET, serverIp, &stSockAddr.sin_addr);
 
 	/*Connect socket to server*/
-    sceNetConnect(SocketFD, (struct SceNetSockaddr *)&stSockAddr, sizeof stSockAddr);
+    sceNetConnect(dconfig->SocketFD, (struct SceNetSockaddr *)&stSockAddr, sizeof stSockAddr);
 
 	/*Show log on pc/mac side*/
 	debugNetUDPPrintf("debugnet initialized\n");
@@ -169,10 +173,66 @@ int debugNetInit(char *serverIp, int port, int level)
     debugNetUDPPrintf("ready to have a lot of fun...\n");
 
 	/*library debugnet initialized*/
-    debugnet_initialized = 1;
+    dconfig->debugnet_initialized = 1;
 
-    return debugnet_initialized;
+    return dconfig->debugnet_initialized;
 }
+
+debugNetConfiguration *debugNetGetConf()
+{	
+	if(dconfig)
+	{
+		return dconfig;
+	}
+	
+	return NULL;	
+}
+int debugNetSetConf(debugNetConfiguration *conf)
+{	
+	if(conf)
+	{
+		dconfig=conf;
+		debugnet_external_conf=1;
+		return dconfig->debugnet_initialized;
+	}
+	
+	return 0;	
+}
+int debugNetInitWithConf(debugNetConfiguration *conf)
+{
+	int ret;
+	ret=debugNetSetConf(conf);
+	if(ret)
+	{
+		debugNetPrintf(INFO,"debugnet already initialized using configuration from ps4link\n");
+		debugNetPrintf(INFO,"debugnet_initialized=%d SocketFD=%d logLevel=%d\n",dconfig->debugnet_initialized,dconfig->SocketFD,dconfig->logLevel);
+		debugNetPrintf(INFO,"ready to have a lot of fun...\n");
+		return dconfig->debugnet_initialized;
+	}
+	else
+	{
+		return 0;
+	}
+	
+}
+int debugNetCreateConf()
+{	
+	if(!dconfig)
+	{
+		dconfig=malloc(sizeof(debugNetConfiguration));
+		dconfig->debugnet_initialized=0;
+		dconfig->SocketFD = -1;
+		dconfig->logLevel=INFO;	
+		return 0;
+	}
+	
+	if(dconfig->debugnet_initialized)
+	{
+		return 1;
+	}
+	return 0;			
+}
+
 
 /**
  * Finish debugnet library 
@@ -184,16 +244,18 @@ int debugNetInit(char *serverIp, int port, int level)
  */
 void debugNetFinish()
 {
-    if (debugnet_initialized) {
-       
-        sceNetCtlTerm();
-        sceNetTerm();
-
-        if (net_memory) {
-            free(net_memory);
-            net_memory = NULL;
-        }
-
-        debugnet_initialized = 0;
-    }
+	
+	if(!debugnet_external_conf)
+	{
+    	if (dconfig->debugnet_initialized) {
+        	dconfig->debugnet_initialized = 0;
+			dconfig->SocketFD=-1;
+			
+	        if (net_memory) {
+	            free(net_memory);
+	            net_memory = NULL;
+	        }
+    	}
+	}
+   
 }
