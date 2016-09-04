@@ -56,8 +56,8 @@ DEBUGNET FOR VITA
 ===========================
   Change log
 ===========================
- 04/09/2016 Update to support henkaku and last vitasdk
- 21/01/2016 Update to support last vitasdk 
+ - 04/09/2016 Update to support henkaku and last vitasdk
+ - 21/01/2016 Update to support last vitasdk 
  
 ===========================
   Credits
@@ -65,7 +65,7 @@ DEBUGNET FOR VITA
   
   Special thanks goes to:
   
-  - team molecule for bring henkaku to make life easier for homebrew devoloper 
+  - team molecule for bring henkaku to make life easier for homebrew developer 
   - All people who collaborated in #PSP2SDK: @173210, @xerpi(i stole you network initialization code :P from FTPVita), @frangar , @frtomtomdu80, @hykemthedemon , @SMOKE587, @Josh_Axey ... 
   - All ps3dev and ps2dev old comrades
   - xyzz for help with vita toolchain
