@@ -4,10 +4,11 @@
  *  Repository https://github.com/psxdev/debugnet
  */
 #include <debugnet.h>
+#include <psp2/kernel/processmgr.h>
 
 
 
-#define ip_server "172.26.1.15"
+#define ip_server "192.168.1.3"
 #define port_server 18194
 int main()
 {
@@ -17,6 +18,6 @@ int main()
 	debugNetPrintf(ERROR,"Test error level %d\n",ret);
 	debugNetPrintf(INFO,"Test info level %d\n",ret);	
 	debugNetFinish();
-	
+	sceKernelExitProcess(0);
 	return 0;
 }

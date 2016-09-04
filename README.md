@@ -35,7 +35,7 @@ DEBUGNET FOR VITA
   socat udp-recv:18194 stdout 
   ```
   
- 4) Execute sample with rejuvenate
+ 4) Install debugnetsample.vpk in your vita an run it
  
  You will see in socat terminal window output from your PlayStation Vita:
  
@@ -46,16 +46,17 @@ DEBUGNET FOR VITA
  License, v. 2.0. If a copy of the MPL was not distributed with this
  file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ready to have a lot of fun...
- [DEBUG]: Test debug level 1
- [ERROR]: Test error level 1
- [INFO]: Test info level 1
+ [VITA][DEBUG]: Test debug level 1
+ [VITA][ERROR]: Test error level 1
+ [VITA][INFO]: Test info level 1
  ```
  
- 5) ready to have a lot of fun :P and switch to vitasdk
+ 5) ready to have a lot of fun :P and switch done to henkaku and vitasdk
 
 ===========================
   Change log
 ===========================
+ 04/09/2016 Update to support henkaku and last vitasdk
  21/01/2016 Update to support last vitasdk 
  
 ===========================
@@ -64,7 +65,7 @@ DEBUGNET FOR VITA
   
   Special thanks goes to:
   
-  - yifanlu to open the doors with rejuvenate. 
+  - team molecule for bring henkaku to make life easier for homebrew devoloper 
   - All people who collaborated in #PSP2SDK: @173210, @xerpi(i stole you network initialization code :P from FTPVita), @frangar , @frtomtomdu80, @hykemthedemon , @SMOKE587, @Josh_Axey ... 
   - All ps3dev and ps2dev old comrades
   - xyzz for help with vita toolchain

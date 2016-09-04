@@ -4,7 +4,7 @@ INCLUDES   = include
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
 AR      = $(PREFIX)-ar
-CFLAGS  = -O2 -Wall -I$(INCLUDES) 
+CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES)
 ASFLAGS = $(CFLAGS)
 
 all: $(TARGET_LIB)

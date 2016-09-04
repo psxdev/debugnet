@@ -1,30 +1,38 @@
-#
-# Copyright (c) 2015 Antonio Jose Ramos Marquez aka bigboss (@psxdev)
-#
+TITLE_ID = BIGB00001
+TARGET   = debugnetsample
+OBJS     = main.o 
 
+LIBS = -lc -lSceKernel_stub -ldebugnet -lSceNetCtl_stub -lSceNet_stub -lSceSysmodule_stub
 
-
-
-
-TARGET		:= debugnetsample
-
-OBJS= main.o
-
-LIBS=-ldebugnet -lSceNet_stub -lSceNetCtl_stub 
 
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
 CFLAGS  = -Wl,-q -Wall -O3
 ASFLAGS = $(CFLAGS)
 
-all: $(TARGET).velf
+all: $(TARGET).vpk
+
+%.vpk: eboot.bin
+	vita-mksfoex -s TITLE_ID=$(TITLE_ID) "$(TARGET)" param.sfo
+	vita-pack-vpk -s param.sfo -b eboot.bin  $@
+
+eboot.bin: $(TARGET).velf
+	vita-make-fself $< $@
 
 %.velf: %.elf
-	$(PREFIX)-strip -g $<
 	vita-elf-create $< $@
 
 $(TARGET).elf: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
 
 clean:
-	@rm -rf $(TARGET).velf $(TARGET).elf $(OBJS)
+	@rm -rf $(TARGET).vpk $(TARGET).velf $(TARGET).elf $(OBJS) \
+		eboot.bin param.sfo
+
+vpksend: $(TARGET).vpk
+	curl -T $(TARGET).vpk ftp://$(PSVITAIP):1337/ux0:/
+	@echo "Sent."
+
+send: eboot.bin
+	curl -T eboot.bin ftp://$(PSVITAIP):1337/ux0:/app/$(TITLE_ID)/
+	@echo "Sent."

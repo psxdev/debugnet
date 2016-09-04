@@ -12,12 +12,15 @@
 #include <psp2/net/netctl.h>
 #include <psp2/types.h>
 #include <psp2/kernel/clib.h>
+#include <psp2/sysmodule.h>
 #include "debugnet.h"
 
 int debugnet_external_conf=0;
 debugNetConfiguration *dconfig=NULL;
 static void *net_memory = NULL;
 static SceNetInAddr vita_addr;
+struct SceNetSockaddrIn stSockAddr;
+
 
 /**
  * UDP printf for debugnet library 
@@ -59,16 +62,20 @@ void debugNetPrintf(int level, char* format, ...)
 	sceClibVsnprintf(msgbuf,2048, format, args);
 	msgbuf[2047] = 0;
 	va_end(args);
+	if(level>dconfig->logLevel)
+	{
+		level=NONE;
+	}
 	switch(level)
 	{
 		case INFO:
-	    	debugNetUDPPrintf("[INFO]: %s",msgbuf);  
+	    	debugNetUDPPrintf("[VITA][INFO]: %s",msgbuf);  
 	        break;
 	   	case ERROR: 
-	    	debugNetUDPPrintf("[ERROR]: %s",msgbuf);
+	    	debugNetUDPPrintf("[VITA][ERROR]: %s",msgbuf);
 	        break;
 		case DEBUG:
-	        debugNetUDPPrintf("[DEBUG]: %s",msgbuf);
+	        debugNetUDPPrintf("[VITA][DEBUG]: %s",msgbuf);
 	        break;
 		case NONE:
 			break;
@@ -109,10 +116,9 @@ void debugNetSetLogLevel(int level)
  */
 int debugNetInit(char *serverIp, int port, int level)
 {
-    int ret;
+    int ret=0;
     SceNetInitParam initparam;
     SceNetCtlInfo info;
-    struct SceNetSockaddrIn stSockAddr;
 	
 	if(debugNetCreateConf())
 	{
@@ -122,6 +128,12 @@ int debugNetInit(char *serverIp, int port, int level)
 	debugNetSetLogLevel(level);
     
     
+	if (sceSysmoduleIsLoaded(SCE_SYSMODULE_NET) != SCE_SYSMODULE_LOADED)
+	ret=sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
+	
+	if (ret >=0) {
+		
+	
     /*net initialazation code from xerpi at https://github.com/xerpi/FTPVita/blob/master/ftp.c*/
     /* Init Net */
     if (sceNetShowNetstat() == SCE_NET_ERROR_ENOTINIT) {
@@ -156,10 +168,11 @@ int debugNetInit(char *serverIp, int port, int level)
    
     memset(&stSockAddr, 0, sizeof stSockAddr);
 	
+	
 	/*Populate SceNetSockaddrIn structure values*/
     stSockAddr.sin_family = SCE_NET_AF_INET;
     stSockAddr.sin_port = sceNetHtons(port);
-    sceNetInetPton(SCE_NET_AF_INET, serverIp, &stSockAddr.sin_addr);
+	sceNetInetPton(SCE_NET_AF_INET, serverIp, &stSockAddr.sin_addr);
 
 	/*Connect socket to server*/
     sceNetConnect(dconfig->SocketFD, (struct SceNetSockaddr *)&stSockAddr, sizeof stSockAddr);
@@ -174,6 +187,7 @@ int debugNetInit(char *serverIp, int port, int level)
 
 	/*library debugnet initialized*/
     dconfig->debugnet_initialized = 1;
+	}
 
     return dconfig->debugnet_initialized;
 }
@@ -204,7 +218,7 @@ int debugNetInitWithConf(debugNetConfiguration *conf)
 	ret=debugNetSetConf(conf);
 	if(ret)
 	{
-		debugNetPrintf(INFO,"debugnet already initialized using configuration from ps4link\n");
+		debugNetPrintf(INFO,"debugnet already initialized using configuration from psp2link\n");
 		debugNetPrintf(INFO,"debugnet_initialized=%d SocketFD=%d logLevel=%d\n",dconfig->debugnet_initialized,dconfig->SocketFD,dconfig->logLevel);
 		debugNetPrintf(INFO,"ready to have a lot of fun...\n");
 		return dconfig->debugnet_initialized;
@@ -250,6 +264,12 @@ void debugNetFinish()
     	if (dconfig->debugnet_initialized) {
         	dconfig->debugnet_initialized = 0;
 			dconfig->SocketFD=-1;
+			
+			//sceNetCtlTerm();
+
+			//sceNetTerm();
+			
+			//sceSysmoduleUnloadModule(SCE_SYSMODULE_NET);
 			
 	        if (net_memory) {
 	            free(net_memory);
