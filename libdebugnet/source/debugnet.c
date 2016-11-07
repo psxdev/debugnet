@@ -37,7 +37,8 @@ void debugNetUDPPrintf(const char* fmt, ...)
   va_start(arg, fmt);
   sceClibVsnprintf(buffer, sizeof(buffer), fmt, arg);
   va_end(arg);
-  sceNetSend(dconfig->SocketFD, buffer, strlen(buffer), 0);
+  
+  debugNetSend(buffer);
 }
 
 /**
