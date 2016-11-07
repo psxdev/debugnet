@@ -39,6 +39,23 @@ void debugNetUDPPrintf(const char* fmt, ...)
   va_end(arg);
   sceNetSend(dconfig->SocketFD, buffer, strlen(buffer), 0);
 }
+
+/**
+ * Raw text send for debugnet library,
+ * use debugNetPrintf() instead unless necessary
+ *
+ * @par Example:
+ * @code
+ * debugNetSend("This is a test\n");
+ * @endcode
+ *
+ * @param level - NONE,INFO,ERROR or DEBUG
+ */
+void debugNetSend(char *text)
+{
+	sceNetSend(dconfig->SocketFD, text, strlen(text), 0);
+}
+
 /**
  * Log Level printf for debugnet library 
  *
