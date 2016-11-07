@@ -49,7 +49,7 @@ void debugNetUDPPrintf(const char* fmt, ...)
  * debugNetSend("This is a test\n");
  * @endcode
  *
- * @param level - NONE,INFO,ERROR or DEBUG
+ * @param text - NULL-terminated buffer containing the raw text to send
  */
 void debugNetSend(char *text)
 {
