@@ -53,7 +53,7 @@ void debugNetUDPPrintf(const char* fmt, ...)
  *
  * @param text - NULL-terminated buffer containing the raw text to send
  */
-void debugNetUDPSend(char *text)
+void debugNetUDPSend(const char *text)
 {
 	sceNetSend(dconfig->SocketFD, text, strlen(text), 0);
 }
@@ -68,7 +68,7 @@ void debugNetUDPSend(char *text)
  *
  * @param level - NONE,INFO,ERROR or DEBUG
  */
-void debugNetPrintf(int level, char* format, ...) 
+void debugNetPrintf(int level, const char* format, ...) 
 {
 	char msgbuf[0x800];
 	va_list args;
@@ -133,7 +133,7 @@ void debugNetSetLogLevel(int level)
  * @param port - udp port server
  * @param level - DEBUG,ERROR,INFO or NONE 
  */
-int debugNetInit(char *serverIp, int port, int level)
+int debugNetInit(const char *serverIp, int port, int level)
 {
     int ret=0;
     SceNetInitParam initparam;
