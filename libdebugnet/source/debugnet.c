@@ -23,11 +23,12 @@ struct SceNetSockaddrIn stSockAddr;
 
 
 /**
- * UDP printf for debugnet library 
+ * UDP printf for debugnet library,
+ * use debugNetPrintf() instead unless necessary
  *
  * @par Example:
  * @code
- * debugNetUDPPrintf("This is a test\n");
+ * debugNetUDPPrintf("This is a %s test\n", "real");
  * @endcode
  */
 void debugNetUDPPrintf(const char* fmt, ...)
@@ -37,14 +38,32 @@ void debugNetUDPPrintf(const char* fmt, ...)
   va_start(arg, fmt);
   sceClibVsnprintf(buffer, sizeof(buffer), fmt, arg);
   va_end(arg);
-  sceNetSend(dconfig->SocketFD, buffer, strlen(buffer), 0);
+  
+  debugNetUDPSend(buffer);
 }
+
+/**
+ * UDP Raw text send for debugnet library,
+ * use debugNetPrintf() instead unless necessary
+ *
+ * @par Example:
+ * @code
+ * debugNetUDPSend("This is a test\n");
+ * @endcode
+ *
+ * @param text - NULL-terminated buffer containing the raw text to send
+ */
+void debugNetUDPSend(char *text)
+{
+	sceNetSend(dconfig->SocketFD, text, strlen(text), 0);
+}
+
 /**
  * Log Level printf for debugnet library 
  *
  * @par Example:
  * @code
- * debugNetPrintf(INFO,"This is a test\n");
+ * debugNetPrintf(INFO,"This is a %s test\n", "real");
  * @endcode
  *
  * @param level - NONE,INFO,ERROR or DEBUG
