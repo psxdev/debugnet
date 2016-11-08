@@ -32,8 +32,9 @@ int debugNetInitWithConf(debugNetConfiguration *conf);
 debugNetConfiguration *debugNetGetConf();
 int debugNetSetConf(debugNetConfiguration *conf);
 void debugNetFinish();
-void debugNetSend(char *text);
-void debugNetPrintf(int level, char* format, ...);
+void debugNetUDPSend(char *text);
+void debugNetUDPPrintf(char *format, ...);
+oid debugNetPrintf(int level, char* format, ...);
 void debugNetSetLogLevel(int level);
 int debugNetCreateConf();
 
