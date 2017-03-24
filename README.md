@@ -18,6 +18,16 @@ DEBUGNET FOR VITA
   make install
   ```
   
+  or
+  
+  ```
+  mkdir build
+  cd build
+  cmake ..
+  make 
+  make install
+  ```
+  
  2) Compile sample
   
   
