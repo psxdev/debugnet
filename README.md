@@ -1,13 +1,11 @@
 DEBUGNET FOR VITA
 =================
  
-===================
  What does this do?
 ===================
  
   debugnet is a vita small library to debug your homebrew code over udp. It is the same method that i use to debug PlayStation 3 code, so i can use the same host tools for PlayStation Vita and PlayStation 3 to do it.
   
-==================
   How do I use it?
 ==================
 
@@ -53,13 +51,14 @@ DEBUGNET FOR VITA
  
  5) ready to have a lot of fun :P and switch done to henkaku and vitasdk
 
-===========================
+
   Change log
 ===========================
+ - 24/03/2017 Cmake added by devnoname120 
  - 04/09/2016 Update to support henkaku and last vitasdk
  - 21/01/2016 Update to support last vitasdk 
  
-===========================
+
   Credits
 ===========================
   
