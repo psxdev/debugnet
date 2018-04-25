@@ -2,7 +2,7 @@ TITLE_ID = BIGB00001
 TARGET   = debugnetsample
 OBJS     = main.o 
 
-LIBS = -lc -lSceKernel_stub -ldebugnet -lSceNetCtl_stub -lSceNet_stub -lSceSysmodule_stub
+LIBS = -lc -lSceLibKernel_stub -ldebugnet -lSceNetCtl_stub -lSceNet_stub -lSceSysmodule_stub
 
 
 PREFIX  = arm-vita-eabi
