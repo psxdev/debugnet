@@ -63,10 +63,10 @@ void debugNetUDPSend(const char *text)
  *
  * @par Example:
  * @code
- * debugNetPrintf(INFO,"This is a %s test\n", "real");
+ * debugNetPrintf(DBGNET_INFO,"This is a %s test\n", "real");
  * @endcode
  *
- * @param level - NONE,INFO,ERROR or DEBUG
+ * @param level - DBGNET_NONE,DBGNET_INFO,DBGNET_ERROR or DBGNET_DEBUG
  */
 void debugNetPrintf(int level, const char* format, ...) 
 {
@@ -83,20 +83,20 @@ void debugNetPrintf(int level, const char* format, ...)
 	va_end(args);
 	if(level>dconfig->logLevel)
 	{
-		level=NONE;
+		level=DBGNET_NONE;
 	}
 	switch(level)
 	{
-		case INFO:
+		case DBGNET_INFO:
 	    	debugNetUDPPrintf("[VITA][INFO]: %s",msgbuf);  
 	        break;
-	   	case ERROR: 
+	   	case DBGNET_ERROR: 
 	    	debugNetUDPPrintf("[VITA][ERROR]: %s",msgbuf);
 	        break;
-		case DEBUG:
+		case DBGNET_DEBUG:
 	        debugNetUDPPrintf("[VITA][DEBUG]: %s",msgbuf);
 	        break;
-		case NONE:
+		case DBGNET_NONE:
 			break;
 	    default:
 		    debugNetUDPPrintf("%s",msgbuf);
@@ -108,9 +108,9 @@ void debugNetPrintf(int level, const char* format, ...)
  *
  * @par Example:
  * @code
- * debugNetSetLogLevel(DEBUG);  
+ * debugNetSetLogLevel(DBGNET_DEBUG);  
  * @endcode
- * @param level - DEBUG,ERROR,INFO or NONE 
+ * @param level - DBGNET_DEBUG,DBGNET_ERROR,DBGNET_INFO or DBGNET_NONE 
  */
 void debugNetSetLogLevel(int level)
 {
@@ -126,12 +126,12 @@ void debugNetSetLogLevel(int level)
  * @code
  * #define LOGLEVEL 3  
  * int ret;
- * ret = debugNetInit("172.26.0.2", 18194, DEBUG);
+ * ret = debugNetInit("172.26.0.2", 18194, DBGNET_DEBUG);
  * @endcode
  *
  * @param serverIP - your pc/mac server ip
  * @param port - udp port server
- * @param level - DEBUG,ERROR,INFO or NONE 
+ * @param level - DBGNET_DEBUG,DBGNET_ERROR,DBGNET_INFO or DBGNET_NONE 
  */
 int debugNetInit(const char *serverIp, int port, int level)
 {
@@ -237,9 +237,9 @@ int debugNetInitWithConf(debugNetConfiguration *conf)
 	ret=debugNetSetConf(conf);
 	if(ret)
 	{
-		debugNetPrintf(INFO,"debugnet already initialized using configuration from psp2link\n");
-		debugNetPrintf(INFO,"debugnet_initialized=%d SocketFD=%d logLevel=%d\n",dconfig->debugnet_initialized,dconfig->SocketFD,dconfig->logLevel);
-		debugNetPrintf(INFO,"ready to have a lot of fun...\n");
+		debugNetPrintf(DBGNET_INFO,"debugnet already initialized using configuration from psp2link\n");
+		debugNetPrintf(DBGNET_INFO,"debugnet_initialized=%d SocketFD=%d logLevel=%d\n",dconfig->debugnet_initialized,dconfig->SocketFD,dconfig->logLevel);
+		debugNetPrintf(DBGNET_INFO,"ready to have a lot of fun...\n");
 		return dconfig->debugnet_initialized;
 	}
 	else
@@ -255,7 +255,7 @@ int debugNetCreateConf()
 		dconfig=malloc(sizeof(debugNetConfiguration));
 		dconfig->debugnet_initialized=0;
 		dconfig->SocketFD = -1;
-		dconfig->logLevel=INFO;	
+		dconfig->logLevel=DBGNET_INFO;	
 		return 0;
 	}
 	

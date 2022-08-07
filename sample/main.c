@@ -13,10 +13,10 @@
 int main()
 {
 	int ret;
-	ret=debugNetInit(ip_server,port_server,DEBUG);
-	debugNetPrintf(DEBUG,"Test debug level %d\n",ret);
-	debugNetPrintf(ERROR,"Test error level %d\n",ret);
-	debugNetPrintf(INFO,"Test info level %d\n",ret);	
+	ret=debugNetInit(ip_server,port_server,DBGNET_DEBUG);
+	debugNetPrintf(DBGNET_DEBUG,"Test debug level %d\n",ret);
+	debugNetPrintf(DBGNET_ERROR,"Test error level %d\n",ret);
+	debugNetPrintf(DBGNET_INFO,"Test info level %d\n",ret);	
 	debugNetFinish();
 	sceKernelExitProcess(0);
 	return 0;

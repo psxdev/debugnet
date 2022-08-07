@@ -8,10 +8,10 @@
 
 #define NET_INIT_SIZE 1*1024*1024
 
-#define NONE 0
-#define INFO 1
-#define ERROR 2
-#define DEBUG 3	
+#define DBGNET_NONE 0
+#define DBGNET_INFO 1
+#define DBGNET_ERROR 2
+#define DBGNET_DEBUG 3	
 
 typedef struct debugNetConfiguration
 {
